@@ -99,7 +99,7 @@ namespace OpenSlideCs
             {
                 handle = openslide_open(filename);
                 if (handle.ToInt32() == 0)
-                    GetLastError();
+					throw new ArgumentException("Not a valid openslide file "+filename);
                 max_os_level = openslide_get_level_count(handle);
                 if (max_os_level == -1)
                     GetLastError();
