@@ -95,7 +95,7 @@ namespace OpenSlideCs
             public string CheckForLastError()
             {
                 var lastError = Import.openslide_get_error(handle);
-                if (lastError.ToInt32() == 0)
+                if (lastError == IntPtr.Zero)
                     return null;
                 else
                     return Marshal.PtrToStringAnsi(lastError);
@@ -110,11 +110,11 @@ namespace OpenSlideCs
                 handle = Import.openslide_open(filename);
                 unsafe
                 {
-                    if (handle == null || handle.ToInt32() == 0)
+                    if (handle == null || handle == IntPtr.Zero)
                     {
                         var vendor = Import.openslide_detect_vendor(filename);
                         //GetLastError();
-                        if (vendor.ToInt32() != 0)
+                        if (vendor == IntPtr.Zero)
                             throw new ArgumentException("Vendor " + Marshal.PtrToStringAnsi(vendor) + " unsupported?");
                         else
                             throw new ArgumentException("File unrecognized");
@@ -307,7 +307,7 @@ namespace OpenSlideCs
             {
                 double DEFAULT_MPP = 0.19872813990461;
                 var prop = Import.openslide_get_property_value(handle, OPENSLIDE_PROPERTY_NAME_MPP_X);
-                if (prop.ToInt32() == 0)
+                if (prop == IntPtr.Zero)
                     GetLastError();
                 var propstring = Marshal.PtrToStringAnsi(prop);
                 double ret = DEFAULT_MPP;
@@ -347,7 +347,7 @@ namespace OpenSlideCs
                     }
                     unsafe
                     {
-                        if (handle != null && handle.ToInt32() != 0)
+                        if (handle != null && handle != IntPtr.Zero)
                         {
                             Import.openslide_close(handle);
                         }
